@@ -6,5 +6,9 @@ MobileDeliveryMVVM/
 MobileDeliveryServer/
 MobileDeliverySettings
 MobileDeliveryUniversal/
+MobileDeliveryManagerCore/
 UMDGeneral
 WinsysSQLDriver
+.vs
+.vs/*
+packages

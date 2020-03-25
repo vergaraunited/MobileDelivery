@@ -28,3 +28,6 @@
 [submodule "WinsysSQLDriver"]
 	path = WinsysSQLDriver
 	url = https://github.com/vergaraunited/WinsysSQLDriver.git
+[submodule "MobileDeliveryManagerCore"]
+	path = MobileDeliveryManagerCore
+	url = https://github.com/vergaraunited/MobileDeliveryManagerCore.git
