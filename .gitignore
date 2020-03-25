@@ -1,0 +1,10 @@
+ManifestGenerator/
+MobileDeliveryCaching/
+MobileDeliveryClient/
+MobileDeliveryLogger/
+MobileDeliveryMVVM/
+MobileDeliveryServer/
+MobileDeliverySettings
+MobileDeliveryUniversal/
+UMDGeneral
+WinsysSQLDriver

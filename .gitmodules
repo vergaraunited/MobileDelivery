@@ -1,0 +1,30 @@
+[submodule "MobileDeliveryMVVM"]
+	path = MobileDeliveryMVVM
+	url = https://github.com/vergaraunited/MobileDeliveryMVVM.git
+[submodule "MobileDeliverySettings"]
+	path = MobileDeliverySettings
+	url = https://github.com/vergaraunited/MobileDeliverySettings.git
+[submodule "MobileDeliveryClient"]
+	path = MobileDeliveryClient
+	url = https://github.com/vergaraunited/MobileDeliveryClient.git
+[submodule "MobileDeliveryServer"]
+	path = MobileDeliveryServer
+	url = https://github.com/vergaraunited/MobileDeliveryServer.git
+[submodule "MobileDeliveryCaching"]
+	path = MobileDeliveryCaching
+	url = https://github.com/vergaraunited/MobileDeliveryCaching.git
+[submodule "MobileDeliveryLogger"]
+	path = MobileDeliveryLogger
+	url = https://github.com/vergaraunited/MobileDeliveryLogger.git
+[submodule "MobileDeliveryUniversal"]
+	path = MobileDeliveryUniversal
+	url = https://github.com/vergaraunited/MobileDeliveryUniversal.git
+[submodule "UMDGeneral"]
+	path = UMDGeneral
+	url = https://github.com/vergaraunited/UMDGeneral.git
+[submodule "ManifestGenerator"]
+	path = ManifestGenerator
+	url = https://github.com/vergaraunited/ManifestGenerator.git
+[submodule "WinsysSQLDriver"]
+	path = WinsysSQLDriver
+	url = https://github.com/vergaraunited/WinsysSQLDriver.git
