@@ -19,9 +19,9 @@
 [submodule "MobileDeliveryUniversal"]
 	path = MobileDeliveryUniversal
 	url = https://github.com/vergaraunited/MobileDeliveryUniversal.git
-[submodule "UMDGeneral"]
-	path = UMDGeneral
-	url = https://github.com/vergaraunited/UMDGeneral.git
+[submodule "MobileDeliveryGeneral"]
+	path = MobileDeliveryGeneral
+	url = https://github.com/vergaraunited/MobileDeliveryGeneral.git
 [submodule "ManifestGenerator"]
 	path = ManifestGenerator
 	url = https://github.com/vergaraunited/ManifestGenerator.git
