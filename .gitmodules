@@ -31,3 +31,6 @@
 [submodule "MobileDeliveryManagerCore"]
 	path = MobileDeliveryManagerCore
 	url = https://github.com/vergaraunited/MobileDeliveryManagerCore.git
+[MobileDeliveryGeneral]
+	branch = master
+	update = merge
