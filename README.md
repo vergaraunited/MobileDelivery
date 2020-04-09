@@ -13,7 +13,7 @@ dotnet restore
 dotnet build
 ```
 
-## NuGet Package References
+## NuGet Package Relationship Diagram
 ![NuGet Package Model](https://github.com/vergaraunited/Docs/blob/master/imgs/MobileDeliveryModel.jpg)
 
 ## NuGet Package References
