@@ -1,0 +1,96 @@
+#!/bin/bash
+
+source ~/.alias
+
+function read_solution() {
+    echo "Parsing solution $1"
+
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+        if [[ $line =~ \"([^\"]*.csproj)\" ]]; then
+            project="${BASH_REMATCH[1]}"
+
+            process_project()
+        fi
+
+    done < "$1"
+}
+
+function process_project() {
+    echo "Parsing project $1"
+    local version
+    package_regex='PackageReference Include="([^"]*)" Version="([^"]*)"'
+
+    if grep -q 'PackageReference Include..MobileDelivery' $project; then
+        projectout="${project}out"
+
+        echo $project
+        sed -n '/PackageReference Include="MobileDelivery*/p' $project
+        sed '/PackageReference Include="MobileDelivery*/s/Version="[0-9]*.[0-9]*.[0-9]"/&@/g;:a {s/0"@/1"/g;s/1"@/2"/g;s/2"@/3"/g;s/3"@/4"/g;s/4"@/5"/g;s/5"@/6"/g;s/6"@/7"/g;s/7"@/8"/g;s/8"@/9"/g;s/9"@/@0"/g;t a};s/@/1/g' $project > $projectout
+        echo $projectout
+        sed -n '/PackageReference Include="MobileDelivery*/p' $projectout
+
+        read -u 1 -p "Are you sure you want to bump the version(s) for $project [Y/n]" response
+        response=${response,,} # tolower
+        if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
+            cp $project ${project}.bak
+            #cp $projectout ${project}
+
+        fi
+    fi
+}
+
+function read_project() {
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+        if [[ $line =~ $package_regex ]]; then
+            name="${BASH_REMATCH[1]}"
+            version="${BASH_REMATCH[2]}"
+
+            if [[ $version != *-* ]]; then
+                dotnet add "$1" package "$name"
+            fi
+        fi
+
+    done < $1
+}
+
+function update_packages() {
+    has_read=0
+
+    echo "start"
+    if [[ $1 =~ \.sln$ ]]; then
+        @echo "read solution"
+        read_solution "$1"
+        return 0
+    elif [[ $1 =~ \.csproj$ ]]; then
+        @echo "read project"
+        read_project "$1"
+        return 0
+    elif [[ $1 != "" ]]; then
+        echo "Invalid file $1"
+        return 1
+    fi
+
+
+    for solution in ./*.sln; do
+        if [ ! -f ${solution} ]; then
+            continue
+        fi
+
+        read_solution "${solution}"
+        has_read=1
+    done
+
+    if [[ $has_read -eq 1 ]]; then
+        return 0
+    fi
+    for project in ./*.csproj; do
+        if [ ! -f ${project} ]; then
+            continue
+        fi
+
+        read_project "${project}"
+    done
+}
+#export -f dotnet_update_packages
+
+update_packages
