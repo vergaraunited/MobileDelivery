@@ -13,6 +13,14 @@ dotnet restore
 dotnet build
 ```
 
+## Commit and Push
+```
+git submodule foreach "git status"
+git submodule foreach "git pull"
+git submodule foreach "git commit -am 'your comment' || echo ' '"
+git submodule foreach "git push"
+```
+
 ## NuGet Package Relationship Diagram
 ![NuGet Package Model](https://github.com/vergaraunited/Docs/blob/master/imgs/MobileDeliveryModel.jpg)
 
