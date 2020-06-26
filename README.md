@@ -7,7 +7,7 @@ Development/Debug Solution with all projects as Sub-Modules
 
 
 ## Checkout and build
-```git clone https://github.com/coenm/EagleEye.git
+git clone https://github.com/vergaraunited/mobiledelivery.git
 git submodule update --init --recursive
 dotnet restore
 dotnet build
