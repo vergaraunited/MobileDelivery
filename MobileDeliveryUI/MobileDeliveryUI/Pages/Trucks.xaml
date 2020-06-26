@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:behaviors="clr-namespace:MobileDeliveryUniversal.Behaviors;assembly=MobileDeliveryUniversal"
+             xmlns:converters="clr-namespace:MobileDeliveryUniversal.Converters"
+             x:Class="MobileDeliveryUniversal.Pages.Trucks"
+             Title="Truck" >
+    
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:TruckVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadCommand}"/>
+    </ContentPage.Behaviors>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <DatePicker x:Name="dpTruckDate"
+                    MinimumDate="{Binding MinDate}"
+                    MaximumDate="{Binding MaxDate}"
+                    Format="D"
+                    Margin="30, 0, 0, 30"
+                    Date="{Binding TruckDate, Mode=TwoWay}"
+                    />
+
+            <Label Text = "{Binding LoadTruckRequestComplete}" FontSize="Large" HorizontalOptions="Center" />
+            
+            <Button Text="Load Trucks" BackgroundColor="Blue" Command="{Binding LoadCommand,Converter={StaticResource _commandConv}}" />
+
+            <ListView x:Name="TrucksList" ItemsSource="{Binding Trucks, Mode=TwoWay}" 
+                        RowHeight="60" ItemSelected="TruckSelected" x:FieldModifier="public">
+                <ListView.Header>
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text ="TRK_CDE" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="FirstName" FontSize="Large" HorizontalOptions="Center" Grid.Column="1"/>
+                        <Label Text ="LastName" FontSize="Large" HorizontalOptions="Center" Grid.Column="2" />
+                        <Label Text ="Desc" FontSize="Medium" HorizontalOptions="Center" Grid.Column="3"/>
+                        <Label Text ="NOTES" FontSize="Medium" HorizontalOptions="Center" Grid.Column="4"/>
+                        <Label Text ="ManId" FontSize="Medium" HorizontalOptions="Center" Grid.Column="5"/>
+                        <Label Text ="Id" FontSize="Medium" HorizontalOptions="Center" Grid.Column="6"/>
+                    </Grid>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text = "{Binding TRK_CDE}" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                                    <Label Text = "{Binding FirstName}" FontSize="Large" HorizontalOptions="Center" Grid.Column="1"/>
+                                    <Label Text = "{Binding LastName}" FontSize="Large" HorizontalOptions="Center" Grid.Column="2"/>
+                                    <Label Text = "{Binding Desc}" FontSize="Medium" HorizontalOptions="Center" Grid.Column="3"/>
+                                    <Label Text = "{Binding NOTES}" FontSize="Medium" HorizontalOptions="Center" Grid.Column="4"/>
+                                    <Label Text ="{Binding ManifestId}" FontSize="Medium" HorizontalOptions="Center" Grid.Column="5"/>
+                                    <Label Text ="{Binding Id}" FontSize="Medium" HorizontalOptions="Center" Grid.Column="6"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

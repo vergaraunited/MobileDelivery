@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:converters="clr-namespace:MobileDeliveryUniversal.Converters"
+             x:Class="MobileDeliveryUniversal.Pages.SettingsPage"
+             Title="Application Settings" >
+    
+    <ContentPage.BindingContext>
+        <viewModels:SettingsVM />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry BindingContext="{Binding Settings}" Text="{Binding Count, StringFormat='The count is {0:F0}'}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

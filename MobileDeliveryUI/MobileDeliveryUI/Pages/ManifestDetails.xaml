@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:converters="clr-namespace:MobileDeliveryUniversal.Converters"
+             x:Class="MobileDeliveryUniversal.Pages.ManifestDetails"
+             Title="Manifest Details">
+
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <local:DriverVM />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Manifest Details"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+
+            <DatePicker x:Name="dpManifestDetailsDate"
+                    MinimumDate="{Binding MinDate}"
+                    MaximumDate="{Binding MaxDate}"
+                    Format="D"
+                    Margin="30, 0, 0, 30"
+                    Date="{Binding ManifestDetailsDate, Mode=TwoWay}"
+                    />
+
+            <Picker x:Name="Trucks" 
+                    Title="Manifest by Truck" TitleColor="Red" 
+                    ItemsSource="{Binding Trucks}"
+                    ItemDisplayBinding="{Binding TruckId}"  
+                    SelectedItem="{Binding SelectedTruck}"
+                    />
+
+            <Label Text="{Binding Source={x:Reference Trucks}, Path=SelectedItem}" />
+
+            <Button Text="Load Truck Manifest" BackgroundColor="Blue" Command="{Binding LoadCommand,Converter={StaticResource _commandConv}}" />
+
+            <Label Text="{Binding ManifestDate}"  />
+            <Label Text="{Binding ROUTECOUNT, StringFormat='The Route count is {0:F0}'}"/>
+            <Label Text="{Binding TOTORDERS, StringFormat='The Total Order count is {0:F0}'}"/>
+            <Label Text="{Binding TOTORDERDETAILS, StringFormat='The Total Order Detail count is {0:F0}'}"/>
+            <Label Text="{Binding TRUCKCODE, StringFormat='The Current Truck Code is {0}'}"/>
+
+
+            <ListView x:Name="StopList" ItemsSource="{Binding Stops, Mode=TwoWay}" RowHeight="60" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                      SelectedItem="{Binding SelectedStop,Mode=TwoWay}" HasUnevenRows="True"  CachingStrategy="RecycleElement" SeparatorVisibility="None">
+
+                <ListView.Header>
+
+
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="6*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text ="Stop Num" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Route Cd" FontSize="Large" HorizontalOptions="Center" Grid.Column="1"/>
+                        <Label Text ="State" FontSize="Large" HorizontalOptions="Center" Grid.Column="2"/>
+                        <Label Text ="Address" FontSize="Large" HorizontalOptions="Center" Grid.Column="3" />
+                        <!--Label Text ="Count" FontSize="Large" HorizontalOptions="Center" Grid.Column="4" /-->
+                    </Grid>
+
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid Padding="2"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <!--RowDefinition Height="Auto"></-->
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding StopNum}" HorizontalOptions="Center" FontSize="Large" />
+                                    <Label Grid.Row="0" Grid.Column="3" Text="{Binding RouteCode}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="4" Text="{Binding State}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="5" Text="{Binding Address}" HorizontalOptions="Center" />
+                                    <!--Label Grid.Row="0" Grid.Column="5" Text="{Binding COUNT}" HorizontalOptions="Center" /-->
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+            <ListView x:Name="OrderList" ItemsSource="{Binding Orders, Mode=TwoWay}" RowHeight="60" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
+                      SelectedItem="{Binding SelectedOrder,Mode=TwoWay}" HasUnevenRows="True"  CachingStrategy="RecycleElement" SeparatorVisibility="None">
+
+                <ListView.Header>
+
+
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text ="Line#" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Order #" FontSize="Large" HorizontalOptions="Center" Grid.Column="1"/>
+                        <Label Text ="Unit #" FontSize="Large" HorizontalOptions="Center" Grid.Column="2"/>
+
+                    </Grid>
+
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid Padding="2"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <!--RowDefinition Height="Auto"></-->
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Switch/Toggle for A/V Email Alert when closing stops -->
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Switch x:Name="styleSwitch" />
+                                    <Label Text="">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                Binding="{Binding Source={x:Reference styleSwitch}, Path=IsToggled}" Value="true">
+                                                <Setter Property="FontAttributes" Value="Italic, Bold" />
+                                                <Setter Property="FontSize" Value="Large" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding MDL_CNT}" HorizontalOptions="Center"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding ORD_NO}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="3" Text="{Binding WIN_CNT}" HorizontalOptions="Center" />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Complete Stop" BackgroundColor="Blue" 
+                    BindingContext="{Binding Source={x:Reference OrderList}, Path=BindingContext}" 
+                    Command="{Binding StopCompletedCommand,Converter={StaticResource _commandConv}}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

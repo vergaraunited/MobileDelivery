@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileDeliveryUniversal.App">
+    <Application.Resources>
+        <!--#regional Colors-->
+        <Color x:Key="ColorTransparent">Transparent</Color>
+        <Color x:Key="ColorWhite">#FFFFFF</Color>
+        <Color x:Key="ColorBlack">#FF000000</Color>
+        <Color x:Key="ColorGray">Gray</Color>
+        <Color x:Key="ColorRed">Red</Color>
+        <Color x:Key="ColorBlue">Blue</Color>
+        <Color x:Key="ColorGreen">Green</Color>
+        <Color x:Key="ColorYellow">Yellow</Color>
+        <!--#endregional Colors-->
+
+        <!--#regional Color Shades-->
+        <Color x:Key="ColorWhiteHalf">#55FFFFFF</Color>
+        <Color x:Key="ColorWhiteLight">#02FFFFFF</Color>
+        <Color x:Key="ColorBlackHalf">#55000000</Color>
+        <Color x:Key="ColorBlackLight">#02000000</Color>
+        <Color x:Key="ColorDisabled">#dcdcdc</Color>
+        <!--#endregional Color Shades-->
+        <!--#region FontSizeRegular-->
+        <OnPlatform x:Key="FontSizeRegular" x:TypeArguments="x:Double">
+            <On Platform="iOS" Value="16" />
+            <!--On Platform="Android" Value="18" />
+
+            <On Platform="WinPhone, Windows, UWP" Value="14"-->
+                <!--
+                        1. I can't keep up on what the windows name is with every version change
+                        so I cover my bases
+                        2. Example of how you can define multiple platforms in one call to the
+                        same value, though I don't know why I'd do that
+                    -->
+            <!--/On-->
+        </OnPlatform>
+    </Application.Resources>
+</Application>

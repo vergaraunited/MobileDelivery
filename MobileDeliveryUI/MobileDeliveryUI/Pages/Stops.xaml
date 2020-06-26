@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:behaviors="clr-namespace:MobileDeliveryUniversal.Behaviors;assembly=MobileDeliveryUniversal"
+             xmlns:converters="clr-namespace:MobileDeliveryUniversal.Converters"
+             x:Class="MobileDeliveryUniversal.Pages.Stops"
+             Title="Stops" >
+
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:StopVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadCommand}"/>
+    </ContentPage.Behaviors>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text = "{Binding LoadStopRequestComplete}" FontSize="Large" HorizontalOptions="Center" />
+
+            <Label x:Name="lblManId" Text="{Binding ManifestId, Mode=TwoWay}"  />
+            <Button Text="Load Stops" BackgroundColor="Blue" Command="{Binding LoadCommand,Converter={StaticResource _commandConv}}" />
+            
+            <ListView x:Name="StopsList" ItemsSource="{Binding Stops, Mode=TwoWay}" 
+                       RowHeight="60" ItemSelected="StopSelected" x:FieldModifier="public">
+                <ListView.Header>
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text ="DisplaySeq" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Address" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Description" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Notes" FontSize="Large" HorizontalOptions="Center" Grid.Column="2"/>
+                    </Grid>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                        
+                                    <Label Text ="{Binding DisplaySeq}" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                                    <Label Text ="{Binding Address}" FontSize="Large" HorizontalOptions="Center" Grid.Column="1"/>
+                                    <Label Text ="{Binding Description}" FontSize="Medium" HorizontalOptions="Center" Grid.Column="2"/>
+                                    <Label Text ="{Binding Notes}" FontSize="Large" HorizontalOptions="Center" Grid.Column="3"/>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

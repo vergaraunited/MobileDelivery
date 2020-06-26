@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:converters="clr-namespace:MobileDeliveryUniversal.Converters"
+             x:Class="MobileDeliveryUniversal.Pages.ManifestMaster"
+             Title="Manifest Master" >
+
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:ManifestVM />
+    </ContentPage.BindingContext>
+   
+    <ContentPage.Content>   
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+
+        <Label Text="Manifest Master"
+                            VerticalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="true"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Green"
+                           BackgroundColor="Blue"/>
+
+        <DatePicker x:Name="dpManifestDate"
+                    MinimumDate="{Binding MinDate}"
+                    MaximumDate="{Binding MaxDate}"
+                    Format="D"
+                    Margin="30, 0, 0, 30"
+                    Date="{Binding ManifestDate, Mode=TwoWay}"
+                    />
+
+            <Button Text="Load Manifest" BackgroundColor="Blue" Command="{Binding LoadManifestCommand,Converter={StaticResource _commandConv}}" />
+
+            <Label Text="{Binding ManifestDate}"  />
+            <Label Text="{Binding ROUTECOUNT, StringFormat='The Route count is {0:F0}'}"/>
+            <Label Text="{Binding ManId}"  />
+
+
+            <ListView x:Name="ManifestList" ItemsSource="{Binding ManifestMaster, Mode=TwoWay}" 
+                       RowHeight="60" ItemSelected="RouteSelected">
+                <!--ListView.Behaviors>
+                SelectedItem="{Binding RouteSelectedCommand}"
+                    <b:EventToCommandBehavior EventNameProperty="ItemTapped" Command="{Binding ShowUserDetail}" />
+                </-->
+                <ListView.Header>
+
+
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text ="Select" FontSize="Large" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Driver" FontSize="Large" HorizontalOptions="Center" Grid.Column="1"/>
+                        <Label Text ="Truck Code" FontSize="Large" HorizontalOptions="Center" Grid.Column="2"/>
+                        <Label Text ="Ship Date" FontSize="Large" HorizontalOptions="Center" Grid.Column="3"/>
+                        <Label Text ="Ship Qty" FontSize="Large" HorizontalOptions="Center" Grid.Column="4" />
+                        <Label Text ="Link" FontSize="Large" HorizontalOptions="Center" Grid.Column="5"/>
+                        <Label Text ="Count" FontSize="Large" HorizontalOptions="Center" Grid.Column="6"/>
+                    </Grid>
+
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid Padding="2"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <!--RowDefinition Height="Auto"></-->
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition> <!-- Checkbox for transferable items -->
+                                        <ColumnDefinition Width="3*"></ColumnDefinition> <!-- Driver dropdown from SQL Server Drivers-->
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    
+                                    <!--Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Source="{Binding ImageUrl}" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" /-->
+                                    <CheckBox x:Name="checkBox" Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" IsChecked="{Binding IsSelected, Mode=TwoWay}" >
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Hold">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="Color" Value="Red" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+
+                                                <VisualState x:Name="Transfer">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="Color" Value="Green" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </CheckBox>
+                                    <Label Text="">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked}" Value="true">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <StackLayout Margin="20">
+                                        <Label Text="Drivers" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                        <Picker Title="Select a Driver" ItemsSource="{Binding DriverList}" SelectedItem="{Binding SelectedColorName, Mode=TwoWay}" />
+                                    </StackLayout>
+                                    
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding TRK_CDE}" HorizontalOptions="Center" FontSize="Large" />
+                                    <Label Grid.Row="0" Grid.Column="3" Text="{Binding SHIP_DTE}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="4" Text="{Binding SHP_QTY}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="5" Text="{Binding LINK}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="6" Text="{Binding COUNT}" HorizontalOptions="Center" />
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+
+                        <!--TextCell Text="{Binding Address}" TextColor="Red"/>
+                            <TextCell Text="{Binding Address}" TextColor="Red"/ -->
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Release Manifest" BackgroundColor="Blue" BindingContext="{Binding Source={x:Reference ManifestList}, Path=BindingContext}" Command="{Binding ReleaseManifestCommand,Converter={StaticResource _commandConv}}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
