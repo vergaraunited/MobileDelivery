@@ -6,6 +6,7 @@ using MobileDeliveryGeneral.Interfaces;
 using MobileDeliveryGeneral.Settings;
 using MobileDeliveryGeneral.Utilities;
 using MobileDeliveryLogger;
+using MobileDeliverySettings.Settings;
 using static MobileDeliveryGeneral.Definitions.MsgTypes;
 
 namespace MobileDeliveryWallet.WalletManagement

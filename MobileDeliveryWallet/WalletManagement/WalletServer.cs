@@ -10,6 +10,7 @@ using static MobileDeliveryGeneral.Definitions.MsgTypes;
 using System.Threading.Tasks;
 using MobileDeliveryClient.API;
 using MobileDeliveryGeneral.Settings;
+using MobileDeliverySettings.Settings;
 
 namespace MobileDeliveryWallet.WalletManagement
 {
