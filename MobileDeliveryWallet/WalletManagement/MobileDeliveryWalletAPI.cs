@@ -6,6 +6,7 @@ using MobileDeliveryGeneral.Interfaces;
 using MobileDeliveryGeneral.Settings;
 using MobileDeliveryGeneral.Utilities;
 using MobileDeliveryLogger;
+using MobileDeliverySettings.Settings;
 using static MobileDeliveryGeneral.Definitions.MsgTypes;
 
 namespace MobileDeliveryWallet.WalletManagement
@@ -37,7 +38,7 @@ namespace MobileDeliveryWallet.WalletManagement
                 throw new Exception($"{config.AppName} Missing Configuration Server Settings.");
             }
 
-            wsrv = new WalletServer(config);
+           // wsrv = new WalletServer(config);
         }
 
         Dictionary<Guid, Func<byte[], Task>> dRetCall = new Dictionary<Guid, Func<byte[], Task>>();

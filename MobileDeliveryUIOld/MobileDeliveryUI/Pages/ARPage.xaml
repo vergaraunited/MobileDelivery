@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:converters="clr-namespace:MobileDeliveryUI.Converters"
+             x:Class="MobileDeliveryUI.Pages.ARPage" 
+             Title="Accounts Receivables and Invoicing" 
+             xmlns:controls="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms">
+
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+        <converters:BytesToImageConverter x:Key="_imgConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:AccountsReceivableVM />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+
+            <Label Text="Billing and Invoicing"
+                            VerticalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="true"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            TextColor="Green"
+                           BackgroundColor="Blue"/>
+
+            <Button Text="Load Delivered Orders" BackgroundColor="Blue" Command="{Binding LoadInvoicesCommand,Converter={StaticResource _commandConv}}" />
+
+            <Label Text="{Binding ManifestDate}" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" />
+            <Label Text="{Binding ROUTECOUNT, StringFormat='The Route count is {0:F0}'}" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" />
+            <Label Text="{Binding ManId}"  FontSize="Medium" TextColor="#4169e1" Font="Bold,20" />
+
+            <ListView x:Name="InvoicedList" ItemsSource="{Binding InvoiceData, Mode=TwoWay}" 
+                       RowHeight="60" x:FieldModifier="public" HasUnevenRows="True">
+                <!--ListView.Behaviors>  ItemSelected="InvoiceCommand">
+                SelectedItem="{Binding RouteSelectedCommand}"
+                    <b:EventToCommandBehavior EventNameProperty="ItemTapped" Command="{Binding ShowUserDetail}" />
+                </-->
+                <ListView.Header>
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <!--ColumnDefinition Width="2*"></-->
+                            <ColumnDefinition Width="6*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="8*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Label Text ="Ord #" FontSize="Medium" HorizontalOptions="Center" Grid.Column="0"/-->
+                        <Label Text ="DealerName" FontSize="Small" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Route" FontSize="Medium" HorizontalOptions="Center" Grid.Column="1"/>
+                        <Label Text ="StatusOD" FontSize="Medium" HorizontalOptions="Center" Grid.Column="2"/>
+                        <Label Text ="BillDateTime" FontSize="Small" HorizontalOptions="Center" Grid.Column="3"/>
+                        <Label Text ="Signature" FontSize="Medium" HorizontalOptions="Center" Grid.Column="4" />
+                    </Grid>
+
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid Padding="2"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <!--RowDefinition Height="Auto"></-->
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="8*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding DLR_NME}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding RTE_CDE}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding Status}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="3" Text="{Binding BillDateTime}" HorizontalOptions="Center" />
+                                    <Image x:Name="imgSignature" HorizontalOptions="Center" Source="{Binding Signature, Converter={StaticResource _imgConv}}"
+                                           WidthRequest="200" Grid.Column="4">
+                                    </Image>
+                                    <!--Image x:Name="POD" Source="{Binding Signature}" Grid.Column="4" Grid.RowSpan="3" Margin="10,10,10,10" /-->
+                                    <!--Label Grid.Row="0" Grid.Column="5" Text="{Binding DEALER_NUM}" HorizontalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="6" Text="{Binding DEALER_PO}" HorizontalOptions="Center" /-->
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+
+                        <!--TextCell Text="{Binding Address}" TextColor="Red"/>
+                            <TextCell Text="{Binding Address}" TextColor="Red"/ -->
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Generate Invoices" BackgroundColor="Blue" BindingContext="{Binding Source={x:Reference InvoicedList}, Path=BindingContext}" Command="{Binding GenerateInvoicesCommand,Converter={StaticResource _commandConv}}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

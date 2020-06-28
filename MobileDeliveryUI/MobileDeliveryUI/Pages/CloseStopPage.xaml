@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:behaviors="clr-namespace:MobileDeliveryUI.Behaviors;assembly=MobileDeliveryUI"
+             xmlns:converters="clr-namespace:MobileDeliveryUI.Converters"
+             x:Class="MobileDeliveryUI.Pages.CloseStopPage"
+             xmlns:controls="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms">
+
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+        <converters:OrderStatusToColorConverter x:Key="_ordStatusConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:CloseStopVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadCommand}"/>
+    </ContentPage.Behaviors>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,40,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout
+            BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}" >
+            <Label x:Name="lblManId" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" Text="{Binding ManifestId, StringFormat='Manifest Id: {0}', Mode=TwoWay}" />
+            <Label x:Name="lblStopNo" FontSize="Medium" TextColor="Black" Font="Bold,20" Text="{Binding DSP_SEQ, StringFormat='Stop Number: {0}', Mode=TwoWay}"  />
+
+            <ScrollView VerticalScrollBarVisibility="Default"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True">
+                    <Label Text="Delivered Orders" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                    <ListView x:Name="ShippedOrderList" ItemsSource="{Binding ShippedOrderCollection, Mode=TwoWay}" 
+                    RowHeight="60" ItemSelected="OrderSelected" x:FieldModifier="public" HasUnevenRows="True">
+                        <ListView.Header>
+                            <Grid HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="9*"></ColumnDefinition>
+                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text ="Deliver" FontSize="Small" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="0"/>
+                                <Label Text ="Order #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="1"/>
+                                <Label Text ="Line #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="2" />
+                                <Label Text ="Unit #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="3"/>
+                                <Label Text ="Color" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="4"/>
+                                <Label Text ="Description" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="5"/>
+                                <Label Text ="Weight" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="6"/>
+                                <Label Text ="Height" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="7"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell Height="100" >
+                                    <ViewCell.View>
+                                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="9*"></ColumnDefinition>
+                                                <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                <ColumnDefinition Width="6*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <!--Label Text="{Binding Path=Monitored,Converter={StaticResource BoolToStringConverter}}" FontSize="Large" VerticalOptions="Center" HorizontalOptions="StartAndExpand" /-->
+                                            <Switch IsToggled="{Binding IsSelected, Mode=TwoWay}" HorizontalOptions="End" BackgroundColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding ORD_NO}" FontSize="Small" HorizontalOptions="Center" Grid.Column="1" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding MDL_CNT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding WIN_CNT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="3" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding CLR}" FontSize="Small" HorizontalOptions="Center" Grid.Column="4" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding DESC}" FontSize="Small" HorizontalOptions="Center" Grid.Column="5" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding WIDTH}" FontSize="Small" HorizontalOptions="Center" Grid.Column="6" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding HEIGHT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="7" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                        </Grid>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+            </ScrollView>
+            <ScrollView VerticalScrollBarVisibility="Default"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                <Frame BorderColor="Red" CornerRadius="10" HasShadow="True">
+                    <Label Text="POD Signature Pad" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                    <controls:SignaturePadView Margin="-10, 0, -10, 0" 
+                    x:Name="SignatureView" StrokeCompleted="SignatureChanged" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand" 
+                    HeightRequest="150" 
+                    CaptionText="Signature" 
+                    CaptionTextColor="Blue" 
+                    ClearText="Effacer" 
+                    ClearTextColor="Black" 
+                    PromptText=""
+                    PromptTextColor="Green" 
+                    BackgroundColor="Silver" 
+                    SignatureLineColor="Black" 
+                    StrokeWidth="3" 
+                    StrokeColor="Black" />
+                </Frame>
+            </ScrollView>
+            
+            <Button x:Name="btnConfirmPOD" Text="Confirm POD" IsEnabled="False" 
+                    Command="{Binding ConfirmPODCommand,Converter={StaticResource _commandConv}}"
+                        HorizontalOptions="End" VerticalOptions="End"/>
+
+            <ScrollView VerticalScrollBarVisibility="Default"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                <Frame BorderColor="Blue" CornerRadius="10" HasShadow="True">
+                    <Label Text="BackOrders" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
+                    <ListView x:Name="BackOrderList" ItemsSource="{Binding BackOrderCollection, Mode=TwoWay}" 
+                    RowHeight="60" ItemSelected="OrderSelected" x:FieldModifier="public" HasUnevenRows="True">
+                        <ListView.Header>
+                            <Grid HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="9*"></ColumnDefinition>
+                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text ="BackOrder" FontSize="Small" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="0"/>
+                                <Label Text ="Order #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="1"/>
+                                <Label Text ="Line #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="2" />
+                                <Label Text ="Unit #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="3"/>
+                                <Label Text ="Color" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="4"/>
+                                <Label Text ="Description" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="5"/>
+                                <Label Text ="Weight" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="6"/>
+                                <Label Text ="Height" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="7"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell Height="100" >
+                                    <ViewCell.View>
+                                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="9*"></ColumnDefinition>
+                                                <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                <ColumnDefinition Width="6*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <!--Label Text="{Binding Path=Monitored,Converter={StaticResource BoolToStringConverter}}" FontSize="Large" VerticalOptions="Center" HorizontalOptions="StartAndExpand" /-->
+                                            <Switch IsToggled="{Binding IsSelected, Mode=TwoWay}" HorizontalOptions="End" BackgroundColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding ORD_NO}" FontSize="Small" HorizontalOptions="Center" Grid.Column="1" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding MDL_CNT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding WIN_CNT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="3" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding CLR}" FontSize="Small" HorizontalOptions="Center" Grid.Column="4" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding DESC}" FontSize="Small" HorizontalOptions="Center" Grid.Column="5" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding WIDTH}" FontSize="Small" HorizontalOptions="Center" Grid.Column="6" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                            <Label Margin="20,0" Text ="{Binding HEIGHT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="7" TextColor="{Binding ., Converter={StaticResource _ordStatusConv}}" />
+                                        </Grid>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

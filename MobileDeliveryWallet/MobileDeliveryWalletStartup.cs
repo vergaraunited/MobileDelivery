@@ -2,6 +2,7 @@
 using MobileDeliveryGeneral.Settings;
 using MobileDeliveryLogger;
 using MobileDeliveryServer;
+using MobileDeliverySettings.Settings;
 using MobileDeliveryWallet.WalletManagement;
 using System;
 using System.Threading;

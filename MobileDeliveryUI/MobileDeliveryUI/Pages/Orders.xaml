@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="ordersPage"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:behaviors="clr-namespace:MobileDeliveryUI.Behaviors;assembly=MobileDeliveryUI"
+             xmlns:converters="clr-namespace:MobileDeliveryUI.Converters;assembly=MobileDeliveryUI"
+             x:Class="MobileDeliveryUI.Pages.Orders"
+             Title="Orders">
+    
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+        <converters:OrderStatusToColorConverter x:Key="_ordStatusConv"/>
+
+        <ResourceDictionary>
+            
+            <DataTemplate x:Key="blueItemTemplate">
+                <ViewCell>
+                    <Grid BackgroundColor="LightSkyBlue"
+                          Padding="20">
+                        <Label Text="This is a blue cell"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+
+            <DataTemplate x:Key="redItemTemplate">
+                <ViewCell>
+                    <Grid BackgroundColor="Red"
+                          Padding="20">
+                        <Label Text="This is a red cell"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+
+            <DataTemplate x:Key="greenGroupingTemplate">
+                <ViewCell>
+                    <Grid BackgroundColor="Green">
+                        <Label Text="{Binding Key}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+
+            <DataTemplate x:Key="yellowGroupingTemplate">
+                <ViewCell>
+                    <Grid BackgroundColor="Yellow">
+                        <Label Text="{Binding Key}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+
+            <behaviors:OrderMasterDataTemplateSelector x:Key="itemDataTemplateSelector"
+                                            RedDataTemplate="{StaticResource redItemTemplate}"
+                                            BlueDataTemplate="{StaticResource blueItemTemplate}"/>
+
+            <behaviors:GroupingDataTemplateSelector x:Key="groupingDataTemplateSelector"
+                                                GreenDataTemplate="{StaticResource greenGroupingTemplate}"
+                                                YellowDataTemplate="{StaticResource yellowGroupingTemplate}"/>
+            </ResourceDictionary>
+    </ContentPage.Resources>
+        
+    <ContentPage.BindingContext>
+        <viewModels:OrderVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadCommand}"/>
+    </ContentPage.Behaviors>
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="LightGray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid BackgroundColor="LightBlue" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                <ScrollView>
+                    <StackLayout>
+                        <!--BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}" -->
+                        <Label x:Name="lblManId" FontSize="Small" TextColor="Black" Font="10" Text="{Binding ManifestId, StringFormat='Manifest Id: {0}', Mode=TwoWay}"  IsVisible="True"/>
+                        <Label x:Name="lblStopNo" FontSize="Small" TextColor="Black" Font="10" Text="{Binding DSP_SEQ, StringFormat='Stop Number: {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblOrdNum"  FontSize="Small" TextColor="Black" Font="10" Text="{Binding ORD_NO, StringFormat='Order Number: {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblShipDate"  FontSize="Small" TextColor="Black" Font="10" Text="{Binding ShipDate, StringFormat='Ship Date: {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblOrdDate"  FontSize="Small" TextColor="Black" Font="10" Text="{Binding OrdDate, StringFormat='Order Date: {0}', Mode=TwoWay}"  />
+
+                        <Label Text="Shipping Info" FontSize="Medium" TextColor="Black" Font="Bold,20" />
+                        <Label x:Name="lblShpName" FontSize="Small" TextColor="Black" Font="10" Text="{Binding ShpName, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblShpAddr" FontSize="Small" TextColor="Black" Font="10" Text="{Binding ShpAddr, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblShpCSZ" FontSize="Small" TextColor="Black" Font="10" Text="{Binding ShpCSZ, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblShpTel" FontSize="Small" TextColor="Black" Font="10" Text="{Binding ShpTel, StringFormat=' {0}', Mode=TwoWay}"  />
+
+                        <Label Text="Dealer Info" FontSize="Medium" TextColor="Black" Font="Bold,20" />
+                        <Label x:Name="lblDlrName" FontSize="Small" TextColor="Black" Font="10" Text="{Binding DealerName, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblDlrAddr" FontSize="Small" TextColor="Black" Font="10" Text="{Binding DlrAddr, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblDlrCSZ" FontSize="Small" TextColor="Black" Font="10" Text="{Binding DlrCSZ, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblDlrTel" FontSize="Small" TextColor="Black" Font="10" Text="{Binding DlrTel, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblDlrNo" FontSize="Small" TextColor="Black" Font="10" Text="{Binding DlrNo, StringFormat=' {0}', Mode=TwoWay}"  />
+
+                        <Label Text="Comments" FontSize="Medium" TextColor="Black" Font="Bold,20" />
+                        <Label x:Name="lblCmt1" FontSize="Small" TextColor="Black" Font="10" Text="{Binding Cmt1, StringFormat=' {0}', Mode=TwoWay}"  />
+                        <Label x:Name="lblCmt2" FontSize="Small" TextColor="Black" Font="10" Text="{Binding Cmt2, StringFormat=' {0}', Mode=TwoWay}"  />
+
+                        <!--Label x:Name="lblOrdCnt" FontSize="Medium" TextColor="Black" Font="Bold,20" Text="{Binding LineCount, StringFormat='Order Count: {0}', Mode=TwoWay}"  /-->
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+
+
+            <!-- Grid Row 2 - Grouped Order List -->
+
+            <Grid>
+                <ScrollView VerticalScrollBarVisibility="Default"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                    <Frame BorderColor="BurlyWood" CornerRadius="10" HasShadow="True">
+                        <Label Text="Shipped Orders" HorizontalOptions="End" VerticalOptions="Center" />
+                        <ListView x:Name="OrderList" ItemsSource="{Binding OrderModelGroup, Mode=TwoWay}" RowHeight="60"  
+                                  ItemTapped="OrderSelected" x:FieldModifier="Public" HasUnevenRows="True" 
+                            IsPullToRefreshEnabled="True" IsGroupingEnabled = "True" 
+                                  GroupDisplayBinding="{Binding ORD_NO}" GroupShortNameBinding="{Binding ORD_NO}" 
+                                  CachingStrategy="RecycleElement" >
+
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Header" TextColor="Olive" BackgroundColor="Red" />
+                                </StackLayout>
+                            </ListView.Header>
+                            <ListView.Footer>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Footer"  TextColor="Gray" BackgroundColor="Blue" />
+                                </StackLayout>
+                            </ListView.Footer>
+
+
+
+                            <ListView.GroupHeaderTemplate>
+
+                                <DataTemplate>
+                                    <ViewCell Height="100" >
+                                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <!--BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}"-->
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="9*"></ColumnDefinition>
+                                                <ColumnDefinition Width="6*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Margin="20,0" Text ="{Binding ORD_NO}" FontSize="Small" HorizontalOptions="Center" Grid.Column="0" />
+                                            <Label Margin="20,0" Text ="{Binding CMT1}" FontSize="Small" HorizontalOptions="Center" Grid.Column="1" />
+                                            <Label Margin="20,0" Text ="{Binding CMT2}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2" />
+                                            <Label Margin="20,0" Text ="{Binding WIN_QTY}" FontSize="Small" HorizontalOptions="Center" Grid.Column="3" />
+                                            <Label Margin="20,0" Text ="{Binding MISC_TEXT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="4" />
+                                            <Label Margin="20,0" Text ="{Binding ORD_DTE}" FontSize="Small" HorizontalOptions="Center" Grid.Column="5" />
+
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.GroupHeaderTemplate>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell Height="100" >
+                                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                            <!--BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}"-->
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                <ColumnDefinition Width="9*"></ColumnDefinition>
+                                                <ColumnDefinition Width="6*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Margin="20,0" Text ="{Binding WIN_QTY}" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" Grid.Column="0"/>
+                                            <Label Margin="20,0" Text ="{Binding MDL_NO}" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" Grid.Column="1"/>
+                                            <Label Margin="20,0" Text ="{Binding DESC}" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" Grid.Column="2"/>
+                                            <Label Margin="20,0" Text ="{Binding CLR}" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" Grid.Column="3"/>
+                                            <Label Margin="20,0" Text ="{Binding WIDTH}" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" Grid.Column="4"/>
+                                            <Label Margin="20,0" Text ="{Binding HEIGHT}" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" Grid.Column="5"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference ordersPage}, Path=BindingContext.RefreshItemsCommand}"  NumberOfTapsRequired="1" CommandParameter="{Binding .}"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <Button Text="Complete Stop" BackgroundColor="Blue" Clicked="OnCompleteOrder" />
+
+                    </Frame>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
+
+
+
+
+
+
+        <!--ListView.GroupHeaderTemplate>
+                             <ListView.HeaderTemplate>
+                                <Grid HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="9*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+        <Label Text ="" FontSize="Small" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="0"/>
+        <Label Text ="Win Qty" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="2"/>
+        <Label Text ="Mdl #" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="3"/>
+        <Label Text ="Description" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="4"/>
+        <Label Text ="Color" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="5"/>
+        <Label Text ="Width" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="6"/>
+        <Label Text ="Height" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="7"/>
+    
+        </ListView.HeaderTemplate-->
+
+   
+                            
+                            
+                            
+                            <!--StackLayout IsVisible="{Binding IsVisible}">
+                                <ListView ItemsSource={Binding **?**}>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Switch IsToggled="{Binding IsSelected, Mode=TwoWay}" HorizontalOptions="End"  />
+                                            <Label Margin="20,0" Text ="{Binding WIN_QTY}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2" />
+                                            <Label Margin="20,0" Text ="{Binding MDL_NO}" FontSize="Small" HorizontalOptions="Center" Grid.Column="3" />
+                                            <Label Margin="20,0" Text ="{Binding DESC}" FontSize="Small" HorizontalOptions="Center" Grid.Column="4" />
+                                            <Label Margin="20,0" Text ="{Binding CLR}" FontSize="Small" HorizontalOptions="Center" Grid.Column="5" />
+                                            <Label Margin="20,0" Text ="{Binding WIDTH}" FontSize="Small" HorizontalOptions="Center" Grid.Column="6" />
+                                            <Label Margin="20,0" Text ="{Binding HEIGHT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="7" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </>
+                        </ListView>
+                    </Frame>
+                </ScrollView-->
+
+
+                <!--ScrollView VerticalScrollBarVisibility="Default"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Frame BorderColor="Gold" CornerRadius="10" HasShadow="True">
+                        <Label Text="OrderDetails" HorizontalOptions="End" VerticalOptions="Center" />
+                        <ListView x:Name="DetailedOrderList" ItemsSource="{Binding OrderSelected, Mode=TwoWay}" 
+                        RowHeight="60" x:FieldModifier="public"  HasUnevenRows="True">
+                            <ListView.Header>
+                                <Grid HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="9*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell Height="100" >
+                                        <ViewCell.View>
+                                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}">
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="9*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Switch IsToggled="{Binding IsSelected, Mode=TwoWay}" HorizontalOptions="End"  />
+                                                <Label Margin="20,0" Text ="{Binding WIN_QTY}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2" />
+                                                <Label Margin="20,0" Text ="{Binding MDL_NO}" FontSize="Small" HorizontalOptions="Center" Grid.Column="3" />
+                                                <Label Margin="20,0" Text ="{Binding DESC}" FontSize="Small" HorizontalOptions="Center" Grid.Column="4" />
+                                                <Label Margin="20,0" Text ="{Binding CLR}" FontSize="Small" HorizontalOptions="Center" Grid.Column="5" />
+                                                <Label Margin="20,0" Text ="{Binding WIDTH}" FontSize="Small" HorizontalOptions="Center" Grid.Column="6" />
+                                                <Label Margin="20,0" Text ="{Binding HEIGHT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="7" />
+                                            </Grid>
+
+                                        </ViewCell.View>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
+                </-->
+
+                <!--ScrollView VerticalScrollBarVisibility="Default"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Frame BorderColor="Gold" CornerRadius="10" HasShadow="True">
+                        <Label Text="Delivered Orders" HorizontalOptions="End" VerticalOptions="Center" />
+                        <ListView x:Name="CompletedOrderList" ItemsSource="{Binding CompletedOrders, Mode=TwoWay}" 
+                        RowHeight="60" ItemSelected="OrderSelected" x:FieldModifier="public"  HasUnevenRows="True">
+                            <ListView.Header>
+                                <Grid HorizontalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="9*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                        <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Text ="" FontSize="Small" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="0"/>
+                                    <Label Text ="Ship Qty" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="1"/>
+                                    <Label Text ="Win Qty" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="2" />
+                                    <Label Text ="Model Number" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="3"/>
+                                    <Label Text ="Description" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="4"/>
+                                    <Label Text ="Color" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="5"/>
+                                    <Label Text ="Width" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="6"/>
+                                    <Label Text ="Height" FontSize="Medium" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="7"/>
+
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell Height="100" >
+                                        <ViewCell.View>
+                                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="{Binding Status, Converter={StaticResource _ordStatusConv}}">
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="9*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Switch IsToggled="{Binding IsSelected, Mode=TwoWay}" HorizontalOptions="End"  />
+                                                <Label Margin="20,0" Text ="{Binding WIN_QTY}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2" />
+                                                <Label Margin="20,0" Text ="{Binding MDL_NO}" FontSize="Small" HorizontalOptions="Center" Grid.Column="3" />
+                                                <Label Margin="20,0" Text ="{Binding DESC}" FontSize="Small" HorizontalOptions="Center" Grid.Column="4" />
+                                                <Label Margin="20,0" Text ="{Binding CLR}" FontSize="Small" HorizontalOptions="Center" Grid.Column="5" />
+                                                <Label Margin="20,0" Text ="{Binding WIDTH}" FontSize="Small" HorizontalOptions="Center" Grid.Column="6" />
+                                                <Label Margin="20,0" Text ="{Binding HEIGHT}" FontSize="Small" HorizontalOptions="Center" Grid.Column="7" />
+                                            </Grid>
+                                        </ViewCell.View>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
+                </-->
+

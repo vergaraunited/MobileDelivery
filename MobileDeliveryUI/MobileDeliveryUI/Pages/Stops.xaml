@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:behaviors="clr-namespace:MobileDeliveryUI.Behaviors"
+             xmlns:converters="clr-namespace:MobileDeliveryUI.Converters"
+             x:Class="MobileDeliveryUI.Pages.Stops"
+             Title="Stops" >
+
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:StopVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding LoadCommand}"/>
+    </ContentPage.Behaviors>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="lblManId"  FontSize="Medium" TextColor="#4169e1" Font="Bold,20" Text="{Binding ManifestId, Mode=TwoWay}"  />
+            <Label x:Name="lblShipDate"  FontSize="Medium" TextColor="#4169e1" Font="Bold,20" Text="{Binding ShipDate, Mode=TwoWay}"  />
+            <Label x:Name="lblDesc" FontSize="Medium" TextColor="Black" Font="Bold,20" Text="{Binding Desc, StringFormat='Stop Number: {0}', Mode=TwoWay}"  />
+            <Label x:Name="lblNotes" FontSize="Medium" TextColor="Black" Font="Bold,20" Text="{Binding NOTES, StringFormat='Dealer Name: {0}', Mode=TwoWay}"  />
+            <Label x:Name="lblTruck" FontSize="Medium" TextColor="Black" Font="Bold,20" Text="{Binding Truck, StringFormat='Dealer Name: {0}', Mode=TwoWay}"  />
+
+            <Button Text="Load Stops" BackgroundColor="Blue" Command="{Binding LoadCommand,Converter={StaticResource _commandConv}}" />
+            
+            <ListView x:Name="StopsList" ItemsSource="{Binding Stops, Mode=TwoWay}" 
+                       RowHeight="60" ItemSelected="StopSelected" x:FieldModifier="public">
+                <ListView.Header>
+                    <Grid HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text ="Stop" FontSize="Small" TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="0"/>
+                        <Label Text ="Customer" FontSize="Small"  TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="1"/>
+                        <Label Text ="Address" FontSize="Small"  TextColor="#4169e1" Font="Bold,20" HorizontalOptions="Center" Grid.Column="2"/>
+                     </Grid>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="100" >
+                            <ViewCell.View>
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                        
+                                    <Label Text ="{Binding DisplaySeq}" FontSize="Small" HorizontalOptions="Center" Grid.Column="0"/>
+                                    <Label Text ="{Binding DealerName}" FontSize="Small" HorizontalOptions="Center" Grid.Column="1"/>
+                                    <Label Text ="{Binding Address}" FontSize="Small" HorizontalOptions="Center" Grid.Column="2"/>
+                                    
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

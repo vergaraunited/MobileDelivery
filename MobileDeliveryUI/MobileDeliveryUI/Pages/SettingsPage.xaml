@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MobileDeliveryMVVM.ViewModel;assembly=MobileDeliveryMVVM"
+             xmlns:converters="clr-namespace:MobileDeliveryUI.Converters"
+             x:Class="MobileDeliveryUI.Pages.SettingsPage"
+             Title="Application Settings" >
+    <ContentPage.Resources>
+        <converters:CommandConverter x:Key="_commandConv"/>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <viewModels:SettingsVM />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout Padding='60'>
+            <ScrollView>
+                <StackLayout Orientation="Vertical">
+                    <Label Text = "URL" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding URL, Mode=TwoWay}"  Placeholder="localhost"/>
+
+                    <Label Text="United Mobile Delivery Url" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding UMDURL, Mode=TwoWay}"/>
+                    
+                    <Label Text="Application Name" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50" />
+                    <Entry Text="{Binding APPNAME, Mode=TwoWay}" Placeholder="United Modile Delivery"/>
+                    
+                    <Label Text="Logfile Path" BackgroundColor="Gray" HeightRequest="50" WidthRequest="5"/>
+                    <Entry Text="{Binding LOGPATH, Mode=TwoWay}" Placeholder="C:\app\logs"/>
+
+                    <Label Text="Log Level (Info, Debug, Warn, Error, Trace)" BackgroundColor="Gray" HeightRequest="50" WidthRequest="5"/>
+                    <Entry Text="{Binding LOGLEVEL, Mode=TwoWay}" Placeholder="Debug"/>
+
+                    <Label Text="United Mobile Delivery Url" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding UMDURL, Mode=TwoWay}"  Placeholder="localhost"/>
+                
+                    <Label Text="United Mobile Delivery Port" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding UMDPORT, Mode=TwoWay}" Placeholder="81"/>
+                
+                    <Label Text="Winsys Url" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding WINSYSURL, Mode=TwoWay}"  Placeholder="localhost"/>
+                
+                    <Label Text="Winsys Port" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding WINSYSPORT}" Placeholder="8181"/>
+
+                    <Label Text="TruckCachePath" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding TruckCachePath, Mode=TwoWay}"  Placeholder=""/>
+
+                    <Label Text="OrderCachePath" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding OrderCachePath, Mode=TwoWay}" Placeholder=""/>
+
+                    <Label Text="StopCachePath" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding StopCachePath, Mode=TwoWay}"  Placeholder=""/>
+
+                    <Label Text="OrderDetailCachePath" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    <Entry Text="{Binding OrderDetailCachePath}" Placeholder=""/>
+                  
+                    <Label Text="SQL Server Connection String" BackgroundColor="Gray" HeightRequest="50" WidthRequest="50"/>
+                    
+                    <Entry  Text="{Binding SQLConn, Mode=TwoWay}" 
+                       Placeholder="Data Source=WIN-50GP30FGO75,1433;Initial Catalog=Demodb;User ID=wtssa;Password=demol23">
+                    </Entry>
+
+                    <Button Text="Save Settings"  Command="{Binding SaveSettings,Converter={StaticResource _commandConv}}" />
+
+                  
+                  <Button Text="Reset Cache Files"  Command="{Binding ReInitializeCommand,Converter={StaticResource _commandConv}}" />
+
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
